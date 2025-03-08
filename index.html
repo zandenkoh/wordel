@@ -742,31 +742,12 @@
         }
 
         function showGame() {
-            const today = new Date().toISOString().split('T')[0];
-            firestore.collection('gameResults')
-                .where('userId', '==', currentUser.uid)
-                .where('date', '==', today)
-                .get()
-                .then((snapshot) => {
-                    if (currentUser.role === 'student' && !snapshot.empty) {
-                        showMessage('You have already played today! Come back tomorrow.');
-                        setTimeout(() => {
-                            document.getElementById('game-container').classList.add('hidden');
-                            document.getElementById('leaderboard').style.display = 'flex';
-                            showLeaderboard();
-                        }, 2000);
-                    } else {
-                        document.getElementById('game-container').classList.remove('hidden');
-                        initGame();
-                        loadCurrentWord();
-                        hintsUsed = false;
-                        document.getElementById('hint-btn').disabled = false;
-                        document.addEventListener('keydown', handleKey);
-                    }
-                })
-                .catch((error) => {
-                    console.error('Error checking daily attempt:', error);
-                });
+            document.getElementById('game-container').classList.remove('hidden');
+            initGame();
+            loadCurrentWord();
+            hintsUsed = false;
+            document.getElementById('hint-btn').disabled = false;
+            document.addEventListener('keydown', handleKey);
         }
 
         function loadCurrentWord() {
